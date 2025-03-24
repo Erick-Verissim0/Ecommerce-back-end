@@ -15,7 +15,6 @@ import { CreateUserDto } from 'src/application/dto/users/create_users.dto';
 import { LoginUserUseCase } from 'src/application/usecases/users/login.usecase';
 import { PostUsersUseCase } from 'src/application/usecases/users/post_users.usecase';
 import { LoginInterface } from 'src/presentation/interface/users/login.interface';
-import { UsersInterface } from 'src/presentation/interface/users/create_users.interface';
 import { GetUsersInterface } from 'src/presentation/interface/users/get_users.interface';
 import { JwtAuthGuard } from 'src/infraestructure/guards/auth.guard';
 import { GetAllUsersUseCase } from 'src/application/usecases/users/get_all_users.usecase';

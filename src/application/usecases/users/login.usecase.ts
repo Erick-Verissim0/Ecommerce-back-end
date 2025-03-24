@@ -42,7 +42,7 @@ export class LoginUserUseCase {
       return { token };
     } catch (error) {
       throw new InternalServerErrorException(
-        `Failed to login user ${error.message}`,
+        `Failed to login user: ${error.message}`,
       );
     }
   }
