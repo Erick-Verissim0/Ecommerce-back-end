@@ -1,4 +1,4 @@
-export interface GetAllClientsInterface {
+export interface GetClientsInterface {
   id: number;
   name: string;
   contact: string;

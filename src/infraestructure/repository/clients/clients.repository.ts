@@ -4,9 +4,12 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Client } from 'src/domain/entities/clients';
-import { getClientsRepositoryHelper } from 'src/domain/helper/get_client_helper';
+import {
+  getClientRepositoryHelper,
+  getClientsRepositoryHelper,
+} from 'src/domain/helper/get_client_helper';
 import { ClientsRepository } from 'src/domain/repository/clients/clients.interface';
-import { GetAllClientsInterface } from 'src/presentation/interface/clients/get_all_clients.interface';
+import { GetClientsInterface } from 'src/presentation/interface/clients/get_clients.interface';
 import { PostClientsInterface } from 'src/presentation/interface/clients/post_clients.interface';
 import { Repository } from 'typeorm';
 
@@ -31,7 +34,7 @@ export class PgClientsRepository implements ClientsRepository {
     }
   }
 
-  async getAllClient(): Promise<GetAllClientsInterface[] | []> {
+  async getAllClient(): Promise<GetClientsInterface[] | []> {
     try {
       const clients = await this.clientRepository.find({
         where: { status: true },
@@ -41,7 +44,22 @@ export class PgClientsRepository implements ClientsRepository {
       return getClientsRepositoryHelper(clients);
     } catch (error) {
       throw new InternalServerErrorException(
-        `Erro ao buscar clientes: ${error.message}`,
+        `Error in get clients: ${error.message}`,
+      );
+    }
+  }
+
+  async getOneClient(id: number): Promise<GetClientsInterface | null> {
+    try {
+      const client = await this.clientRepository.findOne({
+        where: { id, status: true },
+        relations: ['user'],
+      });
+
+      return getClientRepositoryHelper(client);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Error in get client: ${error.message}`,
       );
     }
   }
