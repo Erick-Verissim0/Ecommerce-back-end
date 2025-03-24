@@ -9,6 +9,7 @@ import { UpdateUsersUseCase } from './usecases/users/update_users.usecase';
 import { GetOneUsesUseCase } from './usecases/users/get_one_user.usecase';
 import { DeleteUserUseCase } from './usecases/users/delete_user.usecase';
 import { PostClientsUseCase } from './usecases/clients/post_client.usecase';
+import { GetAllClientsUseCase } from './usecases/clients/get_all_clients.usecase';
 
 @Module({
   imports: [DomainModule, AuthModule],
@@ -21,6 +22,7 @@ import { PostClientsUseCase } from './usecases/clients/post_client.usecase';
     GetOneUsesUseCase,
     DeleteUserUseCase,
     PostClientsUseCase,
+    GetAllClientsUseCase,
   ],
   exports: [
     PostUsersUseCase,
@@ -31,6 +33,7 @@ import { PostClientsUseCase } from './usecases/clients/post_client.usecase';
     GetOneUsesUseCase,
     DeleteUserUseCase,
     PostClientsUseCase,
+    GetAllClientsUseCase,
   ],
 })
 export class ApplicationModule {}

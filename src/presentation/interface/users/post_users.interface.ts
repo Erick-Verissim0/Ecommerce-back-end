@@ -1,6 +1,6 @@
 type Type = 'admin' | 'client';
 
-export interface UsersInterface {
+export interface PostUsersInterface {
   id?: number;
   name: string;
   email: string;

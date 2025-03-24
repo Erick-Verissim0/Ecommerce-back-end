@@ -5,8 +5,8 @@ import {
 } from '@nestjs/common';
 import { UsersRepository } from 'src/domain/repository/users/users.interface';
 import { AuthService } from 'src/infraestructure/services/auth.service';
-import { UsersInterface } from 'src/presentation/interface/users/create_users.interface';
 import * as bcrypt from 'bcrypt';
+import { PostUsersInterface } from 'src/presentation/interface/users/post_users.interface';
 
 interface CreateUserDto {
   name: string;
@@ -25,7 +25,7 @@ export class PostUsersUseCase {
 
   async execute(
     userData: CreateUserDto,
-  ): Promise<{ user: UsersInterface; token: string } | null> {
+  ): Promise<{ user: PostUsersInterface; token: string } | null> {
     try {
       const hashedPassword = await bcrypt.hash(userData.password, 10);
 
