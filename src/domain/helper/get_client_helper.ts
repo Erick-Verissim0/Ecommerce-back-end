@@ -32,9 +32,7 @@ export function getClientsRepositoryHelper(
     .map(getClientRepositoryHelper) as GetClientsInterface[];
 }
 
-export function getClientUseCaseHelper(
-  client: GetClientsInterface | null,
-): GetClientsInterface | null {
+export function getClientUseCaseHelper(client: any): any {
   if (!client) return null;
 
   return {

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Inject,
   Injectable,
   InternalServerErrorException,
@@ -29,6 +30,12 @@ export class PostClientsUseCase {
 
       if (!user) {
         throw new InternalServerErrorException('User not found!');
+      }
+
+      if (user.type === 'admin') {
+        throw new BadRequestException(
+          'Only users of the type "client" can register.',
+        );
       }
 
       const client = await this.clientsRepository.postClient({

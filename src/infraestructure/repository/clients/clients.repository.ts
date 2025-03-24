@@ -1,14 +1,17 @@
 import {
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Client } from 'src/domain/entities/clients';
+import { User } from 'src/domain/entities/users';
 import {
   getClientRepositoryHelper,
   getClientsRepositoryHelper,
 } from 'src/domain/helper/get_client_helper';
 import { ClientsRepository } from 'src/domain/repository/clients/clients.interface';
+import { DeleteClientsInterface } from 'src/presentation/interface/clients/delete_client.interface';
 import { GetClientsInterface } from 'src/presentation/interface/clients/get_clients.interface';
 import { PostClientsInterface } from 'src/presentation/interface/clients/post_clients.interface';
 import { Repository } from 'typeorm';
@@ -18,6 +21,8 @@ export class PgClientsRepository implements ClientsRepository {
   constructor(
     @InjectRepository(Client)
     private readonly clientRepository: Repository<Client>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async postClient(
@@ -60,6 +65,61 @@ export class PgClientsRepository implements ClientsRepository {
     } catch (error) {
       throw new InternalServerErrorException(
         `Error in get client: ${error.message}`,
+      );
+    }
+  }
+
+  async updateClient(
+    id: number,
+    clientData: Partial<Client> & { user_id: number },
+  ): Promise<Client | null> {
+    const client = await this.clientRepository.findOne({ where: { id } });
+
+    if (!client) {
+      throw new NotFoundException(`Client with ID ${id} not found`);
+    }
+
+    const user = await this.userRepository.findOne({
+      where: { id: clientData.user_id },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found!');
+    }
+
+    client.user = user;
+    Object.assign(client, clientData);
+    client.updated_at = new Date();
+
+    try {
+      return await this.clientRepository.save(client);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Failed to update client: ${error.message}`,
+      );
+    }
+  }
+
+  async deleteClient(id: number): Promise<DeleteClientsInterface | null> {
+    const client = await this.clientRepository.findOne({ where: { id } });
+
+    if (!client) {
+      throw new NotFoundException(`Client with ID ${id} not found`);
+    }
+
+    client.status = false;
+    client.deleted_at = new Date();
+
+    try {
+      const updatedClient = await this.clientRepository.save(client);
+      return {
+        id: updatedClient.id,
+        status: updatedClient.status,
+        deleted_at: updatedClient.deleted_at,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Failed to delete client: ${error.message}`,
       );
     }
   }
