@@ -13,6 +13,11 @@ import { GetAllClientsUseCase } from './usecases/clients/get_all_clients.usecase
 import { GetOneClientUseCase } from './usecases/clients/get_one_client.usecase';
 import { UpdateClientUseCase } from './usecases/clients/update_client.usecase';
 import { DeleteClientsUseCase } from './usecases/clients/delete_client.usecase';
+import { PostProductsUseCase } from './usecases/products/post_product.usecase';
+import { GetOneProductUseCase } from './usecases/products/get_one.usecase';
+import { GetAllProductUseCase } from './usecases/products/get_all_product.usecase';
+import { UpdateProductUseCase } from './usecases/products/update_product.usecase';
+import { DeleteProductUseCase } from './usecases/products/delete_product.usecase';
 
 @Module({
   imports: [DomainModule, AuthModule],
@@ -29,6 +34,11 @@ import { DeleteClientsUseCase } from './usecases/clients/delete_client.usecase';
     GetOneClientUseCase,
     UpdateClientUseCase,
     DeleteClientsUseCase,
+    PostProductsUseCase,
+    GetOneProductUseCase,
+    GetAllProductUseCase,
+    UpdateProductUseCase,
+    DeleteProductUseCase,
   ],
   exports: [
     PostUsersUseCase,
@@ -43,6 +53,11 @@ import { DeleteClientsUseCase } from './usecases/clients/delete_client.usecase';
     GetOneClientUseCase,
     UpdateClientUseCase,
     DeleteClientsUseCase,
+    PostProductsUseCase,
+    GetOneProductUseCase,
+    GetAllProductUseCase,
+    UpdateProductUseCase,
+    DeleteProductUseCase,
   ],
 })
 export class ApplicationModule {}
