@@ -49,35 +49,6 @@ export class UsersController {
     return this.loginUserUseCase.execute(email, password);
   }
 
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  async getAllUsers(
-    @Req() req: AuthenticatedRequestInterface,
-  ): Promise<GetUsersInterface[]> {
-    const { type } = req.user;
-    if (type !== 'admin') throw new Error('User does not have permission');
-
-    return this.getAllUsersUseCase.execute();
-  }
-
-  @Get('/:id')
-  @UseGuards(JwtAuthGuard)
-  async getOneUser(
-    @Req() req: AuthenticatedRequestInterface,
-    @Param('id') id: number,
-  ): Promise<GetOneUserInterface> {
-    const user = req.user;
-    const idParam = Number(id);
-
-    if (user.type === 'client' && user.id !== idParam) {
-      throw new UnauthorizedException(
-        'Clients can only view their own information',
-      );
-    }
-
-    return this.getOneUserUseCase.execute(id);
-  }
-
   @Put('/:id')
   @UseGuards(JwtAuthGuard)
   async updateUsers(
@@ -113,5 +84,34 @@ export class UsersController {
     }
 
     return this.deleteUserUseCase.execute(id);
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getAllUsers(
+    @Req() req: AuthenticatedRequestInterface,
+  ): Promise<GetUsersInterface[]> {
+    const { type } = req.user;
+    if (type !== 'admin') throw new Error('User does not have permission');
+
+    return this.getAllUsersUseCase.execute();
+  }
+
+  @Get('/:id')
+  @UseGuards(JwtAuthGuard)
+  async getOneUser(
+    @Req() req: AuthenticatedRequestInterface,
+    @Param('id') id: number,
+  ): Promise<GetOneUserInterface> {
+    const user = req.user;
+    const idParam = Number(id);
+
+    if (user.type === 'client' && user.id !== idParam) {
+      throw new UnauthorizedException(
+        'Clients can only view their own information',
+      );
+    }
+
+    return this.getOneUserUseCase.execute(id);
   }
 }

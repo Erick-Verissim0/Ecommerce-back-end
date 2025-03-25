@@ -6,6 +6,7 @@ import { AuthService } from 'src/infraestructure/services/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { ClientsController } from './clients/clients.controller';
 import { ProductsController } from './products/products.controller';
+import { OrdersController } from './orders/orders.controller';
 
 @Module({
   imports: [ApplicationModule],
@@ -15,6 +16,7 @@ import { ProductsController } from './products/products.controller';
     AuthController,
     ClientsController,
     ProductsController,
+    OrdersController,
   ],
 })
 export class ControllersModule {}

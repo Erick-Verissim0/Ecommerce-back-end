@@ -16,7 +16,7 @@ export class GetAllClientsUseCase {
 
       return getClientsUseCaseHelper(clients);
     } catch (error) {
-      throw new Error(`Erro ao buscar clientes: ${error.message}`);
+      throw new Error(`Error in search client: ${error.message}`);
     }
   }
 }

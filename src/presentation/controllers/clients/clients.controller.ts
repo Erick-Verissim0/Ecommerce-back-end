@@ -41,22 +41,6 @@ export class ClientsController {
     return this.postClientsUseCase.execute(data);
   }
 
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  async getAllClients(): Promise<GetClientsInterface[] | []> {
-    return this.getAllClientsUseCase.execute();
-  }
-
-  @Get('/:id')
-  @UseGuards(JwtAuthGuard)
-  async getOneClient(
-    @Param('id') id: number,
-  ): Promise<GetClientsInterface | null> {
-    const idClient = Number(id);
-
-    return this.getOneClientUseCase.execute(idClient);
-  }
-
   @Patch('/:id')
   @UseGuards(JwtAuthGuard)
   async updateClient(
@@ -72,5 +56,21 @@ export class ClientsController {
     @Param('id', ParseIntPipe) id: number,
   ): Promise<DeleteClientsInterface | null> {
     return this.deleteClientsUseCase.execute(id);
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getAllClients(): Promise<GetClientsInterface[] | []> {
+    return this.getAllClientsUseCase.execute();
+  }
+
+  @Get('/:id')
+  @UseGuards(JwtAuthGuard)
+  async getOneClient(
+    @Param('id') id: number,
+  ): Promise<GetClientsInterface | null> {
+    const idClient = Number(id);
+
+    return this.getOneClientUseCase.execute(idClient);
   }
 }
