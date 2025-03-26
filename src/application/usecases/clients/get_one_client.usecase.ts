@@ -15,7 +15,7 @@ export class GetOneClientUseCase {
       const client = await this.clientsRepository.getOneClient(id);
       return getClientUseCaseHelper(client);
     } catch (error) {
-      throw new Error(`Erro ao buscar cliente: ${error.message}`);
+      throw new Error(`Error in search client: ${error.message}`);
     }
   }
 }

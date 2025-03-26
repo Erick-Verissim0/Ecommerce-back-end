@@ -9,9 +9,17 @@ import { PgClientsRepository } from 'src/infraestructure/repository/clients/clie
 import { Product } from './entities/products';
 import { PgProductsRepository } from 'src/infraestructure/repository/products/products.repository';
 import { ProductsRepository } from './repository/products/products.interface';
+import { OrdersRepository } from './repository/orders/orders.interface';
+import { PgOrdersRepository } from 'src/infraestructure/repository/orders/orders.repository';
+import { Order } from './entities/orders';
+import { OrdersItemsRepository } from './repository/orders_items/orders_items.interface';
+import { PgOrdersItemsRepository } from 'src/infraestructure/repository/orders_items/orders_items.repository';
+import { OrderItem } from './entities/orders_items';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Client, Product])],
+  imports: [
+    TypeOrmModule.forFeature([User, Client, Product, Order, OrderItem]),
+  ],
   providers: [
     PgUsersRepository,
     { provide: UsersRepository, useClass: PgUsersRepository },
@@ -21,12 +29,20 @@ import { ProductsRepository } from './repository/products/products.interface';
 
     PgProductsRepository,
     { provide: ProductsRepository, useClass: PgProductsRepository },
+
+    PgOrdersRepository,
+    { provide: OrdersRepository, useClass: PgOrdersRepository },
+
+    PgOrdersItemsRepository,
+    { provide: OrdersItemsRepository, useClass: PgOrdersItemsRepository },
   ],
   exports: [
     TypeOrmModule,
     UsersRepository,
     ClientsRepository,
     ProductsRepository,
+    OrdersRepository,
+    OrdersItemsRepository,
   ],
 })
 export class DomainModule {}

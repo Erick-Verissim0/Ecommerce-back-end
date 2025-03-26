@@ -1,5 +1,5 @@
 import { UnauthorizedException } from '@nestjs/common';
-import { AuthService } from 'src/infraestructure/services/auth.service';
+import { AuthService } from 'src/infraestructure/services/auth/auth.service';
 import { RequestWithUser } from 'src/presentation/interface/users/request_with_user';
 
 export class AuthHelper {

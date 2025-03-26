@@ -2,10 +2,12 @@ import { Module } from '@nestjs/common';
 import { UsersController } from './users/users.controller';
 import { ApplicationModule } from 'src/application/application.module';
 import { AuthController } from './auth/auth.controller';
-import { AuthService } from 'src/infraestructure/services/auth.service';
+import { AuthService } from 'src/infraestructure/services/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { ClientsController } from './clients/clients.controller';
 import { ProductsController } from './products/products.controller';
+import { OrdersController } from './orders/orders.controller';
+import { OrderItemsController } from './orders_items/orders_items.controller';
 
 @Module({
   imports: [ApplicationModule],
@@ -15,6 +17,8 @@ import { ProductsController } from './products/products.controller';
     AuthController,
     ClientsController,
     ProductsController,
+    OrdersController,
+    OrderItemsController,
   ],
 })
 export class ControllersModule {}

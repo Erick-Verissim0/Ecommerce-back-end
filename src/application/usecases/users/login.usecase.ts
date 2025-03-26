@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { UsersRepository } from 'src/domain/repository/users/users.interface';
 import { compareSync } from 'bcrypt';
-import { AuthService } from 'src/infraestructure/services/auth.service';
+import { AuthService } from 'src/infraestructure/services/auth/auth.service';
 
 @Injectable()
 export class LoginUserUseCase {

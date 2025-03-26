@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { UpdateProductDto } from 'src/application/dto/products/update_product.dto';
 import { ProductsRepository } from 'src/domain/repository/products/products.interface';
 import { ProductInterface } from 'src/presentation/interface/products/product.interface';
@@ -14,11 +14,17 @@ export class UpdateProductUseCase {
     id: number,
     updateProductDto: UpdateProductDto,
   ): Promise<ProductInterface | null> {
-    const product = await this.productRepository.getOneProduct(id);
-    if (!product) {
-      throw new Error('Product not found');
-    }
+    try {
+      const product = await this.productRepository.getOneProduct(id);
+      if (!product) {
+        throw new Error('Product not found');
+      }
 
-    return this.productRepository.updateProduct(id, updateProductDto);
+      return this.productRepository.updateProduct(id, updateProductDto);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Failed to update product: ${error.message}`,
+      );
+    }
   }
 }

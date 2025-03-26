@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostProductDto } from 'src/application/dto/products/post_product.dto';
@@ -18,75 +22,95 @@ export class PgProductsRepository implements ProductsRepository {
   async postProduct(data: PostProductDto): Promise<ProductInterface> {
     try {
       const newProduct = this.productRepository.create(data);
-      const savedProduct = await this.productRepository.save(newProduct);
-      return savedProduct;
+      return await this.productRepository.save(newProduct);
     } catch (error) {
       throw new InternalServerErrorException(
-        `Error saving product: ${error.message}`,
+        `Failed to save product: ${error.message}`,
       );
     }
   }
 
   async getOneProduct(id: number): Promise<ProductInterface | null> {
-    return this.productRepository.findOne({ where: { id } });
+    try {
+      const product = await this.productRepository.findOne({ where: { id } });
+      if (!product)
+        throw new NotFoundException(`Product with id ${id} not found`);
+      return product;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Failed to view product: ${error.message}`,
+      );
+    }
   }
 
-  async getAllProducts(filters: GetAllProductsDto): Promise<ProductInterface[]> {
-    const queryBuilder = this.productRepository.createQueryBuilder('product');
+  async getAllProducts(
+    filters: GetAllProductsDto,
+  ): Promise<ProductInterface[]> {
+    try {
+      const queryBuilder = this.productRepository.createQueryBuilder('product');
 
-    if (filters.minPrice !== undefined) {
-      queryBuilder.andWhere('product.price >= :minPrice', {
-        minPrice: filters.minPrice,
-      });
+      if (filters.minPrice !== undefined) {
+        queryBuilder.andWhere('product.price >= :minPrice', {
+          minPrice: filters.minPrice,
+        });
+      }
+
+      if (filters.maxPrice !== undefined) {
+        queryBuilder.andWhere('product.price <= :maxPrice', {
+          maxPrice: filters.maxPrice,
+        });
+      }
+
+      if (filters.minStock !== undefined) {
+        queryBuilder.andWhere('product.stock >= :minStock', {
+          minStock: filters.minStock,
+        });
+      }
+
+      if (filters.maxStock !== undefined) {
+        queryBuilder.andWhere('product.stock <= :maxStock', {
+          maxStock: filters.maxStock,
+        });
+      }
+
+      return await queryBuilder.getMany();
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Failed to view products: ${error.message}`,
+      );
     }
-
-    if (filters.maxPrice !== undefined) {
-      queryBuilder.andWhere('product.price <= :maxPrice', {
-        maxPrice: filters.maxPrice,
-      });
-    }
-
-    if (filters.minStock !== undefined) {
-      queryBuilder.andWhere('product.stock >= :minStock', {
-        minStock: filters.minStock,
-      });
-    }
-
-    if (filters.maxStock !== undefined) {
-      queryBuilder.andWhere('product.stock <= :maxStock', {
-        maxStock: filters.maxStock,
-      });
-    }
-
-    return queryBuilder.getMany();
   }
 
   async updateProduct(
     id: number,
     updateProductDto: UpdateProductDto,
   ): Promise<ProductInterface | null> {
-    const product = await this.productRepository.findOne({
-      where: { id },
-    });
+    try {
+      const product = await this.getOneProduct(id);
+      if (!product)
+        throw new NotFoundException(`Product with id ${id} not found`);
 
-    if (!product) {
-      return null;
+      Object.assign(product, updateProductDto);
+      return await this.productRepository.save(product);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Failed to update product: ${error.message}`,
+      );
     }
-
-    this.productRepository.merge(product, updateProductDto);
-
-    return this.productRepository.save(product);
   }
 
   async deleteProduct(id: number): Promise<ProductInterface | null> {
-    const product = await this.productRepository.findOne({ where: { id } });
+    try {
+      const product = await this.getOneProduct(id);
+      if (!product)
+        throw new NotFoundException(`Product with id ${id} not found`);
 
-    if (!product) {
-      return null;
+      product.deleted_at = new Date();
+      return await this.productRepository.save(product);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Failed to delete product: ${error.message}`,
+      );
     }
-
-    product.deleted_at = new Date();
-
-    return this.productRepository.save(product);
   }
 }

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { GetAllProductsDto } from 'src/application/dto/products/get_all_products.dto';
 import { ProductsRepository } from 'src/domain/repository/products/products.interface';
 import { ProductInterface } from 'src/presentation/interface/products/product.interface';
@@ -11,6 +11,12 @@ export class GetAllProductUseCase {
   ) {}
 
   async execute(filters: GetAllProductsDto): Promise<ProductInterface[]> {
-    return this.productRepository.getAllProducts(filters);
+   try {
+     return this.productRepository.getAllProducts(filters);
+   } catch (error) {
+     throw new InternalServerErrorException(
+       `Failed to load products: ${error.message}`,
+     );
+   }
   }
 }
