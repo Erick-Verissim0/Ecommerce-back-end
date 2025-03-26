@@ -8,4 +8,5 @@ export interface OrderInterface {
   created_at: Date;
   updated_at: Date;
   deleted_at?: Date;
+  payment_approval_link?: string;
 }

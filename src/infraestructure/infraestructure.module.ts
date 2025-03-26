@@ -12,9 +12,14 @@ import { Order } from 'src/domain/entities/orders';
 import { Product } from 'src/domain/entities/products';
 import { PgProductsRepository } from './repository/products/products.repository';
 import { ProductsRepository } from 'src/domain/repository/products/products.interface';
+import { PgOrdersItemsRepository } from './repository/orders_items/orders_items.repository';
+import { OrdersItemsRepository } from 'src/domain/repository/orders_items/orders_items.interface';
+import { OrderItem } from 'src/domain/entities/orders_items';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Client, Product, Order])],
+  imports: [
+    TypeOrmModule.forFeature([User, Client, Product, Order, OrderItem]),
+  ],
   providers: [
     PgUsersRepository,
     { provide: UsersRepository, useClass: PgUsersRepository },
@@ -27,12 +32,16 @@ import { ProductsRepository } from 'src/domain/repository/products/products.inte
 
     PgOrdersRepository,
     { provide: OrdersRepository, useClass: PgOrdersRepository },
+
+    PgOrdersItemsRepository,
+    { provide: OrdersItemsRepository, useClass: PgOrdersItemsRepository },
   ],
   exports: [
     UsersRepository,
     ClientsRepository,
     ProductsRepository,
     OrdersRepository,
+    OrdersItemsRepository,
   ],
 })
 export class InfrastructureModule {}

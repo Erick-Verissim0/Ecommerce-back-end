@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { UsersRepository } from 'src/domain/repository/users/users.interface';
-import { AuthService } from 'src/infraestructure/services/auth.service';
+import { AuthService } from 'src/infraestructure/services/auth/auth.service';
 import * as bcrypt from 'bcrypt';
 import { PostUsersInterface } from 'src/presentation/interface/users/post_users.interface';
 

@@ -4,7 +4,7 @@ import {
   ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth/auth.service';
 import { AuthenticatedRequestInterface } from 'src/presentation/interface/auth/authenticated_request.interface';
 
 @Injectable()

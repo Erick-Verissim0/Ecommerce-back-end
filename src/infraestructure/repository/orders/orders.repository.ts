@@ -9,23 +9,41 @@ import { Order } from 'src/domain/entities/orders';
 import { OrderInterface } from 'src/presentation/interface/orders/order.interface';
 import { OrdersRepository } from 'src/domain/repository/orders/orders.interface';
 import { UpdateOrderDto } from 'src/application/dto/orders/update_order.dto';
+import { Product } from 'src/domain/entities/products';
 
 @Injectable()
 export class PgOrdersRepository implements OrdersRepository {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepository: Repository<Order>,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
   ) {}
 
-  async postOrder(orderData: OrderInterface): Promise<OrderInterface> {
+  async postOrder(orderData: any): Promise<any> {
     try {
+      const product = await this.productRepository.findOne(
+        orderData.product_id,
+      );
+
+      if (!product) {
+        throw new NotFoundException('Product not found');
+      }
+
+      if (product.stock < orderData.quantity) {
+        throw new InternalServerErrorException(
+          'Insufficient stock for the product',
+        );
+      }
+
+      product.stock -= orderData.quantity;
+      await this.productRepository.save(product);
+
       const newOrder = this.orderRepository.create(orderData);
 
       return await this.orderRepository.save(newOrder);
     } catch (error) {
-      throw new InternalServerErrorException(
-        `${error.message}`,
-      );
+      throw new InternalServerErrorException(`${error.message}`);
     }
   }
 
@@ -33,9 +51,7 @@ export class PgOrdersRepository implements OrdersRepository {
     try {
       return await this.orderRepository.find();
     } catch (error) {
-      throw new InternalServerErrorException(
-        `${error.message}`,
-      );
+      throw new InternalServerErrorException(`${error.message}`);
     }
   }
 
