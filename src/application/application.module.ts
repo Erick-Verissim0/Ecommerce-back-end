@@ -29,6 +29,11 @@ import { DeleteOrderItemUseCase } from './usecases/orders_items/delete_order_ite
 import { PostOrderItemUseCase } from './usecases/orders_items/post_order_item.usecase';
 import { AuthModule } from 'src/infraestructure/services/auth/auth.module';
 import { PaymentModule } from 'src/infraestructure/services/payment/payment.module';
+import { PostSalesReportUseCase } from './usecases/sales-reports/post_sales_reports.usecase';
+import { GetAllSalesReportsUseCase } from './usecases/sales-reports/get_all_sales_reports.usecase';
+import { GetOneSalesReportUseCase } from './usecases/sales-reports/get_one_sales_reports.usecase';
+import { DeleteSaleReportUseCase } from './usecases/sales-reports/delete_sales_reports.usecase';
+import { UpdateSaleReportUseCase } from './usecases/sales-reports/update_sales_reports.usecase';
 
 @Module({
   imports: [DomainModule, AuthModule, PaymentModule],
@@ -60,6 +65,11 @@ import { PaymentModule } from 'src/infraestructure/services/payment/payment.modu
     UpdateOrderItemUseCase,
     DeleteOrderItemUseCase,
     PostOrderItemUseCase,
+    PostSalesReportUseCase,
+    GetAllSalesReportsUseCase,
+    GetOneSalesReportUseCase,
+    DeleteSaleReportUseCase,
+    UpdateSaleReportUseCase,
   ],
   exports: [
     PostUsersUseCase,
@@ -89,6 +99,11 @@ import { PaymentModule } from 'src/infraestructure/services/payment/payment.modu
     UpdateOrderItemUseCase,
     DeleteOrderItemUseCase,
     PostOrderItemUseCase,
+    PostSalesReportUseCase,
+    GetAllSalesReportsUseCase,
+    GetOneSalesReportUseCase,
+    DeleteSaleReportUseCase,
+    UpdateSaleReportUseCase,
   ],
 })
 export class ApplicationModule {}

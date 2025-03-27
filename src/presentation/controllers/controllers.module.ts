@@ -8,6 +8,7 @@ import { ClientsController } from './clients/clients.controller';
 import { ProductsController } from './products/products.controller';
 import { OrdersController } from './orders/orders.controller';
 import { OrderItemsController } from './orders_items/orders_items.controller';
+import { SalesReportsController } from './sales_reports/sales_reports.controller';
 
 @Module({
   imports: [ApplicationModule],
@@ -19,6 +20,7 @@ import { OrderItemsController } from './orders_items/orders_items.controller';
     ProductsController,
     OrdersController,
     OrderItemsController,
+    SalesReportsController,
   ],
 })
 export class ControllersModule {}
