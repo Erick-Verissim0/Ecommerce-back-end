@@ -53,7 +53,7 @@ export class PaymentService {
   public async createOrderPayment(
     amount: string,
     description: string,
-  ): Promise<string> {
+  ): Promise<any> {
     const accessToken = await this.getAccessToken();
     const orderUrl = this.createOrderUrl;
 
@@ -82,10 +82,14 @@ export class PaymentService {
         },
       });
 
-      return (
+      const approvalUrl =
         response.data.links.find((link: any) => link.rel === 'approve')?.href ||
-        ''
-      );
+        null;
+
+      return {
+        payment_id: response.data.id || '',
+        approval_url: approvalUrl,
+      };
     } catch (error) {
       throw new Error(`Error in creating payment order: ${error.message}`);
     }

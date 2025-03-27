@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { config } from './config/environment/enviroment.confg';
 import { User } from './entities/users';
 import { Client } from './entities/clients';
 import { Order } from './entities/orders';
 import { Product } from './entities/products';
 import { SalesReport } from './entities/sales_reports';
 import { OrderItem } from './entities/orders_items';
+import { config } from './config/environment/enviroment.confg';
 
 @Module({
   imports: [
@@ -30,6 +30,7 @@ import { OrderItem } from './entities/orders_items';
         };
       },
     }),
+    TypeOrmModule.forFeature([SalesReport, OrderItem]),
   ],
   exports: [TypeOrmModule],
 })

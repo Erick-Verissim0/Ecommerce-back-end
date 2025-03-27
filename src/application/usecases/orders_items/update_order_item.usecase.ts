@@ -12,9 +12,9 @@ export class UpdateOrderItemUseCase {
   async execute(
     id: number,
     data: Partial<OrdersItemsInterface>,
-  ): Promise<OrdersItemsInterface> {
+  ): Promise<void> {
     try {
-      return await this.orderItemsRepository.updateOrderItem(id, data);
+      await this.orderItemsRepository.updateOrderItem(id, data);
     } catch (error) {
       throw new Error(`Failed to update order item: ${error.message}`);
     }

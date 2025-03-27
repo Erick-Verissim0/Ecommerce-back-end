@@ -71,68 +71,42 @@ export class PgOrdersItemsRepository implements OrdersItemsRepository {
   async updateOrderItem(
     id: number,
     data: Partial<OrdersItemsInterface>,
-  ): Promise<OrdersItemsInterface> {
+  ): Promise<void> {
     try {
       const orderItem = await this.ordersItemsRepository.findOne({
         where: { id },
-        relations: ['order', 'product'],
+        relations: ['order'],
       });
 
       if (!orderItem) {
         throw new NotFoundException('Order item not found');
       }
 
-      let product = orderItem.product;
-
-      if (data.product?.product_id) {
-        const newProduct = await this.productRepository.findOne({
-          where: { id: data.product.product_id },
-        });
-
-        if (!newProduct) {
-          throw new NotFoundException('Product not found');
-        }
-
-        if (product.id !== newProduct.id) {
-          product.stock += orderItem.quantity;
-          await this.productRepository.save(product);
-
-          product = newProduct;
-        }
-      }
-
-      if (data.order?.order_id) {
-        const order = await this.orderRepository.findOne({
-          where: { id: data.order.order_id },
-        });
-
-        if (!order) {
-          throw new NotFoundException('Order not found');
-        }
-
-        orderItem.order = order;
-      }
-
-      if (data.quantity) {
-        const quantityDifference = data.quantity - orderItem.quantity;
-
+      if (data.quantity !== undefined) {
         orderItem.quantity = data.quantity;
-        product.stock -= quantityDifference;
-
-        await this.productRepository.save(product);
       }
-
       if (data.price_per_unit !== undefined) {
         orderItem.price_per_unit = data.price_per_unit;
       }
-
-      orderItem.total_price = orderItem.price_per_unit * orderItem.quantity;
-
-      Object.assign(orderItem, data);
+      if (data.total_price !== undefined) {
+        orderItem.total_price = data.total_price;
+      }
+      if (data.created_at) {
+        orderItem.created_at = data.created_at;
+      }
+      if (data.updated_at) {
+        orderItem.updated_at = data.updated_at;
+      }
+      if (data.deleted_at !== undefined) {
+        orderItem.deleted_at = data.deleted_at;
+      }
+      if (data.order?.order_status) {
+        await this.orderRepository.update(orderItem.order.id, {
+          status: data.order.order_status,
+        });
+      }
 
       await this.ordersItemsRepository.save(orderItem);
-
-      return orderItemMapHelper([orderItem])[0];
     } catch (error) {
       throw new InternalServerErrorException(`${error.message}`);
     }
@@ -160,13 +134,18 @@ export class PgOrdersItemsRepository implements OrdersItemsRepository {
     }
   }
 
-  async getByIdOrderItem(id: number): Promise<OrdersItemsInterface[]> {
+  async getByIdOrderItem(id: number): Promise<any> {
     try {
-      const orderItem = await this.ordersItemsRepository.find({
-        where: { order: { id: id }, deleted_at: null },
+      const orderItem = await this.ordersItemsRepository.findOne({
+        where: { id },
         relations: ['product', 'order'],
       });
-      return orderItemMapHelper(orderItem);
+
+      if (!orderItem) {
+        return [];
+      }
+
+      return orderItem;
     } catch (error) {
       throw new InternalServerErrorException(`${error.message}`);
     }

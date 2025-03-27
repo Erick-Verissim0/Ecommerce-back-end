@@ -8,7 +8,7 @@ export interface OrdersItemsRepository {
   updateOrderItem(
     id: number,
     data: Partial<OrdersItemsInterface>,
-  ): Promise<OrdersItemsInterface>;
+  ): Promise<void>;
   deleteOrderItem(id: number): Promise<void>;
 }
 

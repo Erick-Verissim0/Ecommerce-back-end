@@ -15,10 +15,20 @@ import { Order } from './entities/orders';
 import { OrdersItemsRepository } from './repository/orders_items/orders_items.interface';
 import { PgOrdersItemsRepository } from 'src/infraestructure/repository/orders_items/orders_items.repository';
 import { OrderItem } from './entities/orders_items';
+import { SalesReportsRepository } from './repository/sales_orders/sales_orders.interface';
+import { PgSalesReportsRepository } from 'src/infraestructure/repository/sales_reports/sales_reports.repository';
+import { SalesReport } from './entities/sales_reports';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Client, Product, Order, OrderItem]),
+    TypeOrmModule.forFeature([
+      User,
+      Client,
+      Product,
+      Order,
+      OrderItem,
+      SalesReport,
+    ]),
   ],
   providers: [
     PgUsersRepository,
@@ -35,6 +45,9 @@ import { OrderItem } from './entities/orders_items';
 
     PgOrdersItemsRepository,
     { provide: OrdersItemsRepository, useClass: PgOrdersItemsRepository },
+
+    PgSalesReportsRepository,
+    { provide: SalesReportsRepository, useClass: PgSalesReportsRepository },
   ],
   exports: [
     TypeOrmModule,
@@ -43,6 +56,7 @@ import { OrderItem } from './entities/orders_items';
     ProductsRepository,
     OrdersRepository,
     OrdersItemsRepository,
+    SalesReportsRepository,
   ],
 })
 export class DomainModule {}

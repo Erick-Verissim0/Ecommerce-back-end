@@ -18,5 +18,8 @@ export const config = async () => {
     createPaypalOrderUrl: process.env.CREATE_PAYPAL_ORDER_URL,
     paypalClientId: process.env.PAYPAL_CLIENT_ID,
     paypalClientSecret: process.env.PAYPAL_CLIENT_SECRET,
+
+    // CSV
+    getFilePath: process.env.FILE_PATH,
   };
 };
