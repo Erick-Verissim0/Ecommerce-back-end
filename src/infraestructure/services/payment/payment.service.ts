@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { config } from 'src/domain/config/environment/enviroment.confg';
+import { config } from 'src/infraestructure/config/environment/enviroment.confg';
 
 /*
   Esse service funciona da seguinte maneira:

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { getClientUseCaseHelper } from 'src/domain/helper/get_client_helper';
+import { getClientUseCaseHelper } from 'src/infraestructure/helpers/get_client_helper';
 import { ClientsRepository } from 'src/domain/repository/clients/clients.interface';
 import { GetClientsInterface } from 'src/presentation/interface/clients/get_clients.interface';
 

@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { OrderItem } from 'src/domain/entities/orders_items';
 import { OrdersItemsRepository } from 'src/domain/repository/orders_items/orders_items.interface';
 import { OrdersItemsInterface } from 'src/presentation/interface/orders_items/orders_items.interface';
-import { orderItemMapHelper } from 'src/domain/helper/get_orders_items.helper';
+import { orderItemMapHelper } from 'src/infraestructure/helpers/get_orders_items.helper';
 import { Product } from 'src/domain/entities/products';
 import { Order } from 'src/domain/entities/orders';
 import { PostOrderItemDto } from 'src/application/dto/orders_items/post_order_item.dto';

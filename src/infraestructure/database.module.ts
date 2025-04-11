@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from './config/environment/enviroment.confg';
-import { User } from './entities/users';
-import { Client } from './entities/clients';
-import { Order } from './entities/orders';
-import { Product } from './entities/products';
-import { SalesReport } from './entities/sales_reports';
-import { OrderItem } from './entities/orders_items';
+import { User } from 'src/domain/entities/users';
+import { Client } from 'src/domain/entities/clients';
+import { Product } from 'src/domain/entities/products';
+import { Order } from 'src/domain/entities/orders';
+import { OrderItem } from 'src/domain/entities/orders_items';
+import { SalesReport } from 'src/domain/entities/sales_reports';
 
 @Module({
   imports: [

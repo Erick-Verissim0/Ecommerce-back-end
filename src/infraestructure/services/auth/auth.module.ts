@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { config } from 'src/domain/config/environment/enviroment.confg';
+import { config } from 'src/infraestructure/config/environment/enviroment.confg';
 import { ValidateAuthUseCase } from 'src/application/usecases/auth/validate_auth.usecase';
 import { AuthService } from './auth.service';
 

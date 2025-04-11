@@ -5,12 +5,12 @@ import { Orders1742587051820 } from '../../../../database/migrations/17425870518
 import { Products1742586722531 } from '../../../../database/migrations/1742586722531-products';
 import { OrdersItems1742663212173 } from '../../../../database/migrations/1742663212173-orders_items';
 import { SalesReports1742663897531 } from '../../../../database/migrations/1742663897531-sales_reports';
-import { User } from '../../entities/users';
-import { Client } from '../../entities/clients';
-import { Order } from '../../entities/orders';
-import { Product } from '../../entities/products';
-import { OrderItem } from '../../entities/orders_items';
-import { SalesReport } from '../../entities/sales_reports';
+import { User } from '../../../domain/entities/users';
+import { Client } from '../../../domain/entities/clients';
+import { Order } from '../../../domain/entities/orders';
+import { Product } from '../../../domain/entities/products';
+import { OrderItem } from '../../../domain/entities/orders_items';
+import { SalesReport } from '../../../domain/entities/sales_reports';
 import dotenv from 'dotenv';
 
 dotenv.config();

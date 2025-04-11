@@ -10,7 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/domain/entities/users';
 import { ClientsRepository } from 'src/domain/repository/clients/clients.interface';
 import { UpdateClientsInterface } from 'src/presentation/interface/clients/update_client.interface';
-import { getClientUseCaseHelper } from 'src/domain/helper/get_client_helper';
+import { getClientUseCaseHelper } from 'src/infraestructure/helpers/get_client_helper';
 
 @Injectable()
 export class UpdateClientUseCase {

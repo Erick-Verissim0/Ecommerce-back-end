@@ -9,7 +9,7 @@ import { User } from 'src/domain/entities/users';
 import {
   getClientRepositoryHelper,
   getClientsRepositoryHelper,
-} from 'src/domain/helper/get_client_helper';
+} from 'src/infraestructure/helpers/get_client_helper';
 import { ClientsRepository } from 'src/domain/repository/clients/clients.interface';
 import { DeleteClientsInterface } from 'src/presentation/interface/clients/delete_client.interface';
 import { GetClientsInterface } from 'src/presentation/interface/clients/get_clients.interface';
