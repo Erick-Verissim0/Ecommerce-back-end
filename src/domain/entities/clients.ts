@@ -1,42 +1,16 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { User } from './users';
-
-@Entity('clients')
 export class Client {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'user_id' })
-  user: User;
-
-  @Column({ type: 'varchar', length: 255 })
-  name: string;
-
-  @Column({ type: 'varchar', length: 255 })
-  contact: string;
-
-  @Column({ type: 'varchar', length: 255 })
-  address: string;
-
-  @Column({ type: 'boolean', default: true })
-  status: boolean;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
-
-  @DeleteDateColumn()
-  deleted_at?: Date;
+  constructor(
+    public name: string,
+    public contact: string,
+    public address: string,
+    public status: boolean = true,
+    public id?: number,
+    public user_id?: number,
+    public created_at?: Date,
+    public updated_at?: Date,
+    public deleted_at?: Date,
+  ) {
+    if (!name) throw new Error('Name is required!');
+    if (user_id == null) throw new Error('User ID is required');
+  }
 }

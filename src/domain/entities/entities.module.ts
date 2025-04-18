@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+/* import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users';
 import { Client } from './clients';
@@ -21,3 +21,4 @@ import { Order } from './orders';
   exports: [TypeOrmModule],
 })
 export class EntitiesModule {}
+ */

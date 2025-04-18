@@ -5,23 +5,23 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { OrderItem } from 'src/domain/entities/orders_items';
 import { OrdersItemsRepository } from 'src/domain/repository/orders_items/orders_items.interface';
 import { OrdersItemsInterface } from 'src/presentation/interface/orders_items/orders_items.interface';
 import { orderItemMapHelper } from 'src/infraestructure/helpers/get_orders_items.helper';
-import { Product } from 'src/domain/entities/products';
-import { Order } from 'src/domain/entities/orders';
 import { PostOrderItemDto } from 'src/application/dto/orders_items/post_order_item.dto';
+import { OrderItemModel } from 'src/infraestructure/config/typeorm/models/orders-items.typeorm';
+import { ProductModel } from 'src/infraestructure/config/typeorm/models/products.typeorm';
+import { OrderModel } from 'src/infraestructure/config/typeorm/models/orders.typeorm';
 
 @Injectable()
 export class PgOrdersItemsRepository implements OrdersItemsRepository {
   constructor(
-    @InjectRepository(OrderItem)
-    private readonly ordersItemsRepository: Repository<OrderItem>,
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
-    @InjectRepository(Order)
-    private readonly orderRepository: Repository<Order>,
+    @InjectRepository(OrderItemModel)
+    private readonly ordersItemsRepository: Repository<OrderItemModel>,
+    @InjectRepository(ProductModel)
+    private readonly productRepository: Repository<ProductModel>,
+    @InjectRepository(OrderModel)
+    private readonly orderRepository: Repository<OrderModel>,
   ) {}
 
   async postOrderItem(data: PostOrderItemDto): Promise<OrdersItemsInterface> {

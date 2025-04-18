@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Client } from 'src/domain/entities/clients';
-import { User } from 'src/domain/entities/users';
 import {
   getClientRepositoryHelper,
   getClientsRepositoryHelper,
@@ -15,14 +14,16 @@ import { DeleteClientsInterface } from 'src/presentation/interface/clients/delet
 import { GetClientsInterface } from 'src/presentation/interface/clients/get_clients.interface';
 import { PostClientsInterface } from 'src/presentation/interface/clients/post_clients.interface';
 import { Repository } from 'typeorm';
+import { ClientModel } from 'src/infraestructure/config/typeorm/models/clients.typeorm';
+import { UserModel } from 'src/infraestructure/config/typeorm/models/users.typeorm.';
 
 @Injectable()
 export class PgClientsRepository implements ClientsRepository {
   constructor(
-    @InjectRepository(Client)
-    private readonly clientRepository: Repository<Client>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(ClientModel)
+    private readonly clientRepository: Repository<ClientModel>,
+    @InjectRepository(UserModel)
+    private readonly userRepository: Repository<UserModel>,
   ) {}
 
   async postClient(
@@ -71,7 +72,7 @@ export class PgClientsRepository implements ClientsRepository {
 
   async updateClient(
     id: number,
-    clientData: Partial<Client> & { user_id: number },
+    clientData: Partial<ClientModel> & { user_id: number },
   ): Promise<Client | null> {
     const client = await this.clientRepository.findOne({ where: { id } });
 

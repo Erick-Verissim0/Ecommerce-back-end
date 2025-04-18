@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { config } from './config/environment/enviroment.confg';
 import { User } from 'src/domain/entities/users';
 import { Client } from 'src/domain/entities/clients';
 import { Product } from 'src/domain/entities/products';
 import { Order } from 'src/domain/entities/orders';
 import { OrderItem } from 'src/domain/entities/orders_items';
 import { SalesReport } from 'src/domain/entities/sales_reports';
+import { config } from 'src/infraestructure/config/environment/enviroment.confg';
 
 @Module({
   imports: [

@@ -1,39 +1,22 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { Client } from './clients';
+type StatusType = 'Received' | 'In preparation' | 'Dispatched' | 'Delivered';
 
-@Entity('orders')
 export class Order {
-  @PrimaryGeneratedColumn()
-  id: number;
+  constructor(
+    public status: StatusType,
+    public total_price: number,
+    public id?: number,
+    public client_id?: number,
+    public created_at?: Date,
+    public updated_at?: Date,
+    public deleted_at?: Date,
+  ) {
+    if (
+      !['Received', 'In preparation', 'Dispatched', 'Delivered'].includes(
+        status,
+      )
+    )
+      throw new Error('Invalid status type');
 
-  @ManyToOne(() => Client)
-  @JoinColumn({ name: 'client_id' })
-  client: Client;
-
-  @Column({
-    type: 'enum',
-    enum: ['Received', 'In preparation', 'Dispatched', 'Delivered'],
-  })
-  status: 'Received' | 'In preparation' | 'Dispatched' | 'Delivered';
-
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  total_price: number;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
-
-  @DeleteDateColumn()
-  deleted_at?: Date;
+    if (total_price == null) throw new Error('Total price is required');
+  }
 }

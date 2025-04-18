@@ -5,19 +5,19 @@ import {
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Order } from 'src/domain/entities/orders';
 import { OrderInterface } from 'src/presentation/interface/orders/order.interface';
 import { OrdersRepository } from 'src/domain/repository/orders/orders.interface';
 import { UpdateOrderDto } from 'src/application/dto/orders/update_order.dto';
-import { Product } from 'src/domain/entities/products';
+import { OrderModel } from 'src/infraestructure/config/typeorm/models/orders.typeorm';
+import { ProductModel } from 'src/infraestructure/config/typeorm/models/products.typeorm';
 
 @Injectable()
 export class PgOrdersRepository implements OrdersRepository {
   constructor(
-    @InjectRepository(Order)
-    private readonly orderRepository: Repository<Order>,
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
+    @InjectRepository(OrderModel)
+    private readonly orderRepository: Repository<OrderModel>,
+    @InjectRepository(ProductModel)
+    private readonly productRepository: Repository<ProductModel>,
   ) {}
 
   async postOrder(orderData: any): Promise<any> {

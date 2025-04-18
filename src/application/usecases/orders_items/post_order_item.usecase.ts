@@ -10,7 +10,6 @@ export class PostOrderItemUseCase {
   constructor(
     @Inject(OrdersItemsRepository)
     private readonly ordersItemsRepository: OrdersItemsRepository,
-
     @Inject(PaymentService)
     private readonly paymentService: PaymentService,
   ) {}

@@ -5,13 +5,13 @@ import { Orders1742587051820 } from '../../../../database/migrations/17425870518
 import { Products1742586722531 } from '../../../../database/migrations/1742586722531-products';
 import { OrdersItems1742663212173 } from '../../../../database/migrations/1742663212173-orders_items';
 import { SalesReports1742663897531 } from '../../../../database/migrations/1742663897531-sales_reports';
-import { User } from '../../../domain/entities/users';
 import { Client } from '../../../domain/entities/clients';
 import { Order } from '../../../domain/entities/orders';
 import { Product } from '../../../domain/entities/products';
 import { OrderItem } from '../../../domain/entities/orders_items';
 import { SalesReport } from '../../../domain/entities/sales_reports';
 import dotenv from 'dotenv';
+import { UserModel } from 'src/infraestructure/config/typeorm/models/users.typeorm.';
 
 dotenv.config();
 
@@ -22,7 +22,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DATABASE_USERNAME || 'postgres',
   password: process.env.DATABASE_PASSWORD || 'root',
   database: process.env.DATABASE || 'loomi',
-  entities: [User, Client, Order, Product, OrderItem, SalesReport],
+  entities: [UserModel, Client, Order, Product, OrderItem, SalesReport],
   migrations: [
     Users1742579698310,
     Clients1742580016359,

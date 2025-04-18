@@ -1,35 +1,19 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-} from 'typeorm';
+export type UserType = 'admin' | 'client';
 
-@Entity('users')
 export class User {
-  @PrimaryGeneratedColumn()
-  id?: number;
-
-  @Column({ type: 'varchar', length: 255 })
-  name: string;
-
-  @Column({ type: 'varchar', length: 255, unique: true })
-  email: string;
-
-  @Column({ type: 'varchar', length: 255 })
-  password?: string;
-
-  @Column({ type: 'enum', enum: ['admin', 'client'] })
-  type: 'admin' | 'client';
-
-  @CreateDateColumn()
-  created_at?: Date;
-
-  @UpdateDateColumn()
-  updated_at?: Date;
-
-  @DeleteDateColumn()
-  deleted_at?: Date;
+  constructor(
+    public name: string,
+    public email: string,
+    public type: UserType,
+    public password?: string,
+    public id?: number,
+    public created_at?: Date,
+    public updated_at?: Date,
+    public deleted_at?: Date,
+  ) {
+    if (!name) throw new Error('Name is Required');
+    if (!email.includes('@')) throw new Error('Invalid email');
+    if (!['admin', 'client'].includes(type))
+      throw new Error('Invalid user type');
+  }
 }

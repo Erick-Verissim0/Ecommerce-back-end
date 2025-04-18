@@ -1,35 +1,19 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Product } from "./products";
-import { Order } from "./orders";
-
-@Entity('orders_items')
 export class OrderItem {
-  @PrimaryGeneratedColumn()
-  id: number;
+  constructor(
+    public quantity: number,
+    public price_per_unit: number,
+    public total_price: number,
+    public id?: number,
+    public order_id?: number,
+    public product_id?: number,
+    public created_at?: Date,
+    public updated_at?: Date,
+    public deleted_at?: Date,
+  ) {
+    const requiredFields = { quantity, price_per_unit, total_price };
 
-  @ManyToOne(() => Order)
-  @JoinColumn({ name: 'order_id' })
-  order: Order;
-
-  @ManyToOne(() => Product)
-  @JoinColumn({ name: 'product_id' })
-  product: Product;
-
-  @Column({ type: 'integer' })
-  quantity: number;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  price_per_unit: number;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  total_price: number;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
-
-  @DeleteDateColumn()
-  deleted_at?: Date;
+    Object.entries(requiredFields).forEach(([key, value]) => {
+      if (value == null) throw new Error(`${key} is required`);
+    });
+  }
 }

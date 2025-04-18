@@ -1,31 +1,31 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
-
-@Entity('sales_reports')
 export class SalesReport {
-  @PrimaryGeneratedColumn()
-  id: number;
+  constructor(
+    public periodStart: Date,
+    public periodEnd: Date,
+    public totalSales: number,
+    public productSold: number,
+    public filePath: string,
+    public id?: number,
+    public created_at?: Date,
+    public updated_at?: Date,
+    public deleted_at?: Date,
+  ) {
+    const requiredFields = {
+      periodStart,
+      periodEnd,
+      totalSales,
+      productSold,
+      filePath,
+    };
 
-  @Column({ type: 'timestamp', nullable: false })
-  periodStart: Date;
+    Object.entries(requiredFields).forEach(([key, value]) => {
+      if (value instanceof Date && isNaN(value.getTime())) {
+        throw new Error(`${key} is required`);
+      }
 
-  @Column({ type: 'timestamp', nullable: false })
-  periodEnd: Date;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
-  totalSales: number;
-
-  @Column({ type: 'int', nullable: false })
-  productsSold: number;
-
-  @Column({ type: 'varchar', length: 255, nullable: false })
-  filePath: string;
-
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
-
-  @DeleteDateColumn({ type: 'timestamp', nullable: true })
-  deletedAt?: Date;
+      if (value == null || (typeof value === 'string' && value.trim() == '')) {
+        throw new Error(`${key} is required`);
+      }
+    });
+  }
 }

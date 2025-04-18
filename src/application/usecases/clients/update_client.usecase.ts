@@ -5,20 +5,18 @@ import {
   BadRequestException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/domain/entities/users';
 import { ClientsRepository } from 'src/domain/repository/clients/clients.interface';
 import { UpdateClientsInterface } from 'src/presentation/interface/clients/update_client.interface';
 import { getClientUseCaseHelper } from 'src/infraestructure/helpers/get_client_helper';
+import { UsersRepository } from 'src/domain/repository/users/users.interface';
 
 @Injectable()
 export class UpdateClientUseCase {
   constructor(
     @Inject(ClientsRepository)
     private readonly clientsRepository: ClientsRepository,
-    @InjectRepository(User)
-    private readonly usersRepository: Repository<User>,
+    @Inject(UsersRepository)
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async execute(
@@ -26,9 +24,7 @@ export class UpdateClientUseCase {
     clientData: Partial<UpdateClientsInterface> & { user_id?: number },
   ): Promise<UpdateClientsInterface | null> {
     try {
-      const user = await this.usersRepository.findOne({
-        where: { id: clientData.user_id },
-      });
+      const user = await this.usersRepository.getOneUser(clientData.user_id);
 
       if (!user) {
         throw new NotFoundException('User not found!');

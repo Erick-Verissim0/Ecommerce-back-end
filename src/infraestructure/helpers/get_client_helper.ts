@@ -1,8 +1,8 @@
-import { Client } from 'src/domain/entities/clients';
+import { ClientModel } from '../config/typeorm/models/clients.typeorm';
 import { GetClientsInterface } from 'src/presentation/interface/clients/get_clients.interface';
 
 export function getClientRepositoryHelper(
-  client: Client | null,
+  client: ClientModel | null,
 ): GetClientsInterface | null {
   if (!client || !client.user || client.user.deleted_at) return null;
 
@@ -25,7 +25,7 @@ export function getClientRepositoryHelper(
 }
 
 export function getClientsRepositoryHelper(
-  clients: Client[],
+  clients: ClientModel[],
 ): GetClientsInterface[] {
   return clients
     .filter((client) => client.user && !client.user.deleted_at)
@@ -58,3 +58,4 @@ export function getClientsUseCaseHelper(
 ): GetClientsInterface[] {
   return clients.map(getClientUseCaseHelper) as GetClientsInterface[];
 }
+

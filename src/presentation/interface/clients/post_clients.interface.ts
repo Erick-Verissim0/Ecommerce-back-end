@@ -1,12 +1,13 @@
-import { User } from 'src/domain/entities/users';
+import { User } from "src/domain/entities/users";
 
 export interface PostClientsInterface {
-  id: number;
+  id?: number;
   contact: string;
   address: string;
   status: boolean;
-  created_at: Date;
-  updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
   deleted_at?: Date | null;
-  user_id?: User;
+  user_id?: number;
+  user?: User;
 }

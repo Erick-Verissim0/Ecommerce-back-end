@@ -6,17 +6,17 @@ import {
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostProductDto } from 'src/application/dto/products/post_product.dto';
-import { Product } from 'src/domain/entities/products';
 import { ProductsRepository } from 'src/domain/repository/products/products.interface';
 import { GetAllProductsDto } from 'src/application/dto/products/get_all_products.dto';
 import { UpdateProductDto } from 'src/application/dto/products/update_product.dto';
 import { ProductInterface } from 'src/presentation/interface/products/product.interface';
+import { ProductModel } from 'src/infraestructure/config/typeorm/models/products.typeorm';
 
 @Injectable()
 export class PgProductsRepository implements ProductsRepository {
   constructor(
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
+    @InjectRepository(ProductModel)
+    private readonly productRepository: Repository<ProductModel>,
   ) {}
 
   async postProduct(data: PostProductDto): Promise<ProductInterface> {

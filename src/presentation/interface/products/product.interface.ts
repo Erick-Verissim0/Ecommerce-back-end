@@ -1,10 +1,10 @@
 export interface ProductInterface {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   price: number;
   stock: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
   deleted_at?: Date | null;
 }

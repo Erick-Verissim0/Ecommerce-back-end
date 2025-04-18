@@ -1,28 +1,20 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
-@Entity('products')
 export class Product {
-  @PrimaryGeneratedColumn()
-  id: number;
+  constructor(
+    public name: string,
+    public description: string,
+    public price: number,
+    public stock: number,
+    public id?: number,
+    public created_at?: Date,
+    public updated_at?: Date,
+    public deleted_at?: Date,
+  ) {
+    const requiredFields = { name, description, price, stock };
 
-  @Column({ type: 'varchar', length: 255 })
-  name: string;
-
-  @Column({ type: 'varchar', length: 500 })
-  description: string;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  price: number;
-
-  @Column({ type: 'integer' })
-  stock: number;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
-
-  @DeleteDateColumn()
-  deleted_at?: Date;
+    Object.entries(requiredFields).forEach(([key, value]) => {
+      if (value == null || (typeof value === 'string' && value.trim() === '')) {
+        throw new Error(`${key} is required`);
+      }
+    });
+  }
 }

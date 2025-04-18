@@ -6,13 +6,14 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/domain/entities/users';
 import { UsersRepository } from 'src/domain/repository/users/users.interface';
+import { UserModel } from 'src/infraestructure/config/typeorm/models/users.typeorm.';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class PgUsersRepository implements UsersRepository {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(UserModel)
+    private readonly userRepository: Repository<UserModel>,
   ) {}
 
   async createUser(userData: Partial<User>): Promise<User | null> {
@@ -36,7 +37,6 @@ export class PgUsersRepository implements UsersRepository {
       where: { deleted_at: null },
     });
   }
-
 
   async getOneUser(id: number): Promise<Partial<User> | null> {
     try {
